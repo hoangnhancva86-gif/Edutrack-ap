@@ -1,0 +1,167 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800&display=swap');
+
+/* ─── Dark mode via .dark class on <html> ─────────────────── */
+@variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: "Be Vietnam Pro", ui-sans-serif, system-ui, sans-serif;
+
+  --color-primary:   #4A90E2;
+  --color-secondary: #FF9500;
+  --color-success:   #10b981;
+  --color-warning:   #f59e0b;
+  --color-error:     #ef4444;
+
+  --radius-xl: 16px;
+  --radius-lg: 12px;
+}
+
+/* ─── Base ───────────────────────────────────────────────── */
+body {
+  @apply bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100
+         font-sans antialiased transition-colors duration-300;
+}
+
+/* ─── Glass card ─────────────────────────────────────────── */
+.glass-card {
+  @apply bg-white/80 dark:bg-slate-800/80 backdrop-blur-md
+         border border-white/20 dark:border-slate-700/50 shadow-lg;
+}
+
+/* ─── Gradient utilities ──────────────────────────────────── */
+.gradient-text {
+  @apply bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent;
+}
+.gradient-bg {
+  @apply bg-linear-to-r from-primary to-secondary;
+}
+
+/* ─── Card base ──────────────────────────────────────────── */
+.card {
+  @apply bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700
+         rounded-xl shadow-sm;
+}
+
+/* ─── Skeleton loading animation ────────────────────────── */
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+
+.skeleton {
+  @apply rounded-lg;
+  background: linear-gradient(
+    90deg,
+    #e2e8f0 25%,
+    #f1f5f9 50%,
+    #e2e8f0 75%
+  );
+  background-size: 800px 100%;
+  animation: shimmer 1.4s infinite linear;
+}
+
+.dark .skeleton {
+  background: linear-gradient(
+    90deg,
+    #334155 25%,
+    #475569 50%,
+    #334155 75%
+  );
+  background-size: 800px 100%;
+  animation: shimmer 1.4s infinite linear;
+}
+
+/* ─── Custom scrollbar ───────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track  { @apply bg-transparent; }
+::-webkit-scrollbar-thumb  { @apply bg-slate-300 dark:bg-slate-600 rounded-full; }
+::-webkit-scrollbar-thumb:hover { @apply bg-slate-400 dark:bg-slate-500; }
+
+/* ─── Recharts dark-mode overrides ──────────────────────── */
+.dark .recharts-text { fill: #94a3b8 !important; }
+.dark .recharts-cartesian-grid line { stroke: #334155 !important; }
+.dark .recharts-tooltip-wrapper .recharts-default-tooltip {
+  background: #1e293b !important;
+  border-color: #334155 !important;
+  color: #f1f5f9 !important;
+}
+
+/* ─── Print / PDF styles ─────────────────────────────────── */
+@media print {
+  /* Hide all navigation, buttons, modals */
+  aside, nav, header, footer,
+  .no-print,
+  button:not(.print-visible) {
+    display: none !important;
+  }
+
+  body {
+    background: white !important;
+    color: black !important;
+    font-size: 12px;
+  }
+
+  main {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .card, .glass-card {
+    box-shadow: none !important;
+    border: 1px solid #e2e8f0 !important;
+    break-inside: avoid;
+  }
+
+  /* Show print-only section */
+  .print-only {
+    display: block !important;
+  }
+
+  /* Ensure full width for print */
+  .print-full {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* Page breaks */
+  .page-break {
+    page-break-before: always;
+  }
+
+  /* Header for printed report */
+  .print-header {
+    display: flex !important;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid #4A90E2;
+  }
+}
+
+/* Hide print-only elements on screen */
+.print-only {
+  display: none;
+}
+
+/* ─── Notification badge pulse ───────────────────────────── */
+@keyframes badge-pulse {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.15); }
+}
+.badge-pulse {
+  animation: badge-pulse 2s ease-in-out infinite;
+}
+
+/* ─── Trend arrow animations ─────────────────────────────── */
+@keyframes arrow-up {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-3px); }
+}
+@keyframes arrow-down {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(3px); }
+}
+.trend-up   { animation: arrow-up 1.5s ease-in-out infinite; }
+.trend-down { animation: arrow-down 1.5s ease-in-out infinite; }
